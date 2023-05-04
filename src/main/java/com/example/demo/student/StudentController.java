@@ -20,7 +20,9 @@ public class StudentController {
         return studentService.getStudents();
     }
 
+
     @PostMapping
+    // curl -X POST http://localhost:8080/api/v1/student -H "Content-Type: application/json" -d '{ "name":"Oussama", "email":"oussama@hotmail.com", "dateOfBirthgg":"1995-12-18" }'
     public void registerNewStudent(@RequestBody Student student) {
         studentService.addStudent(student);
     }
