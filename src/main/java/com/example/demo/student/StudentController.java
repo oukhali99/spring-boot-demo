@@ -26,4 +26,20 @@ public class StudentController {
     public void registerNewStudent(@RequestBody Student student) {
         studentService.addStudent(student);
     }
+
+    @DeleteMapping(path = "{studentId}")
+    // curl -X DELETE http://localhost:8080/api/v1/student/1
+    public void deleteStudent(@PathVariable("studentId") Long studentId) {
+        studentService.deleteStudent(studentId);
+    }
+
+    @PutMapping(path = "{studentId}")
+    // curl -X PUT "http://localhost:8080/api/v1/student/1?name=test&email=oukhali@hotmail.com"
+    public void updateStudent(
+            @PathVariable("studentId") Long studentId,
+            @RequestParam  String name,
+            @RequestParam String email
+    ) {
+        studentService.updateStudent(studentId, name, email);
+    }
 }
