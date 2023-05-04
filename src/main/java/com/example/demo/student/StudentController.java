@@ -22,24 +22,24 @@ public class StudentController {
 
 
     @PostMapping
-    // curl -X POST http://localhost:8080/api/v1/student -H "Content-Type: application/json" -d '{ "name":"Oussama", "email":"oussama@hotmail.com", "dateOfBirth":"1995-12-18" }'
     public void registerNewStudent(@RequestBody Student student) {
+        // curl -X POST http://localhost:8080/api/v1/student -H "Content-Type: application/json" -d '{ "name":"Oussama", "email":"oussama@hotmail.com", "dateOfBirth":"1995-12-18" }'
         studentService.addStudent(student);
     }
 
     @DeleteMapping(path = "{studentId}")
-    // curl -X DELETE http://localhost:8080/api/v1/student/1
     public void deleteStudent(@PathVariable("studentId") Long studentId) {
+        // curl -X DELETE http://localhost:8080/api/v1/student/1
         studentService.deleteStudent(studentId);
     }
 
     @PutMapping(path = "{studentId}")
-    // curl -X PUT "http://localhost:8080/api/v1/student/1?name=test&email=oukhali@hotmail.com"
     public void updateStudent(
             @PathVariable("studentId") Long studentId,
             @RequestParam  String name,
             @RequestParam String email
     ) {
+        // curl -X PUT "http://localhost:8080/api/v1/student/1?name=test&email=oukhali@hotmail.com"
         studentService.updateStudent(studentId, name, email);
     }
 }
