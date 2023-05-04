@@ -6,8 +6,13 @@ import org.springframework.lang.NonNull;
 import java.time.LocalDate;
 import java.time.Period;
 
-@Entity
-@Table
+@Entity(name = "Student")
+@Table(
+        name = "Student",
+        uniqueConstraints = {
+                @UniqueConstraint(name = "student_email_unique", columnNames = "email")
+        }
+)
 public class Student {
     @Id
     @SequenceGenerator(
@@ -19,12 +24,32 @@ public class Student {
             strategy = GenerationType.SEQUENCE,
             generator = "student_sequence"
     )
+    @Column(
+            name = "id",
+            updatable = false
+    )
     private Long id;
+
+    @Column(
+            name = "first_name",
+            nullable = false,
+            columnDefinition = "TEXT"
+    )
     private String name;
+
     @Transient
+    @Column(
+            name = "age"
+    )
     private Integer age;
     @NonNull
     private LocalDate dateOfBirth;
+
+    @Column(
+            name = "email",
+            nullable = false,
+            columnDefinition = "TEXT"
+    )
     private String email;
 
     public Student() {
