@@ -15,8 +15,8 @@ export const register = (username, password) => async (dispatch, getState) => {
 
 
     const result = await fetch("http://localhost:8080/api/v1/user", requestOptions);
-    const response = await result.json();
+    const response = await result.text();
     console.log(response);
 
     dispatch(registerAction());
-}
+};
