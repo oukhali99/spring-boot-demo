@@ -1,5 +1,8 @@
 package com.example.demo.auth;
 
+import com.example.demo.auth.model.AuthenticationRequest;
+import com.example.demo.auth.model.AuthenticationResponse;
+import com.example.demo.auth.model.RegisterRequest;
 import com.example.demo.config.JwtService;
 import com.example.demo.user.Role;
 import com.example.demo.user.User;
@@ -7,21 +10,19 @@ import com.example.demo.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
     public AuthenticationResponse register(RegisterRequest request) {
         User user = User.builder()
                 .username(request.getUsername())
-                .passwordHash(passwordEncoder.encode(request.getPasswordHash()))
+                .passwordHash(request.getPasswordHash())
                 .role(Role.USER)
                 .build()
                 ;
@@ -41,7 +42,10 @@ public class AuthenticationService {
                 )
         );
 
-        User user = userRepository.findByUsername(request.getUsername()).orElseThrow();
+        User user = userRepository.findByUsername(
+                request.getUsername()
+        ).orElseThrow();
+
         String jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
