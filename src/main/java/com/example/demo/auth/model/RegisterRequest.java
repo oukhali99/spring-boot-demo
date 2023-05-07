@@ -1,15 +1,11 @@
 package com.example.demo.auth.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
+@RequiredArgsConstructor
 public class RegisterRequest {
-    private String username;
-    private String passwordHash;
+    private final String username;
+    private final String password;
 }

@@ -6,46 +6,61 @@ import com.example.demo.auth.model.RegisterRequest;
 import com.example.demo.config.JwtService;
 import com.example.demo.user.Role;
 import com.example.demo.user.User;
-import com.example.demo.user.UserRepository;
+import com.example.demo.user.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.AuthenticationManager;
+import lombok.SneakyThrows;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
-    private final UserRepository userRepository;
+    private final UserService userService;
     private final JwtService jwtService;
-    private final AuthenticationManager authenticationManager;
+    private final AuthenticationProvider authenticationManager;
+    private final PasswordEncoder passwordEncoder;
 
     public AuthenticationResponse register(RegisterRequest request) {
+        // Create a user
         User user = User.builder()
                 .username(request.getUsername())
-                .passwordHash(request.getPasswordHash())
+                .passwordHash(passwordEncoder.encode(request.getPassword()))
                 .role(Role.USER)
                 .build()
                 ;
-        userRepository.save(user);
 
+        // Add the user to the database
+        userService.addUser(user);
+
+        // Create and return a jwt token
         String jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
                 .build();
     }
 
+    @SneakyThrows
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
+        // Verify that the credentials are valid (will throw an exception if not)
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getUsername(),
-                        request.getPasswordHash()
+                        request.getPassword()
                 )
         );
 
-        User user = userRepository.findByUsername(
-                request.getUsername()
-        ).orElseThrow();
+        // Get the user from the database
+        UserDetails user = userService.loadUserByUsername(request.getUsername());
 
+        // Verify the password
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+            throw new Exception("Wrong password expected " + user.getPassword());
+        }
+
+        // Generate a jwt token and send it back
         String jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
                 .token(jwtToken)

@@ -13,20 +13,17 @@ import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Function;
 
+/**
+ * This class does all the token manipulation
+ */
 @Service
 public class JwtService {
     @Value("${main.jwtSecretKey}")
     private String SECRET_KEY;
 
     public String extractUsername(String jwtToken) {
-        return extractClaim(jwtToken, Claims::getSubject);
-    }
-
-    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
-        final Claims claims = extractAllClaims(token);
-        return claimsResolver.apply(claims);
+        return extractAllClaims(jwtToken).getSubject();
     }
 
     public String generateToken(UserDetails userDetails) {
@@ -58,7 +55,7 @@ public class JwtService {
     }
 
     private Date extractExpiration(String token) {
-        return extractClaim(token, Claims::getExpiration);
+        return extractAllClaims(token).getExpiration();
     }
 
     private Claims extractAllClaims(String jwtToken) {
