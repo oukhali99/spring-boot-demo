@@ -13,11 +13,11 @@ public class GlobalExceptionHandler {
     @ResponseBody
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public String employeeNotFoundHandler(
+    public Exception employeeNotFoundHandler(
             HttpServletRequest request,
            HttpServletResponse response, Exception ex
     ) {
-        return ex.getMessage();
+        return ex;
     }
 
 }
