@@ -1,5 +1,6 @@
-package com.example.demo.config;
+package com.example.demo.auth.config;
 
+import com.example.demo.config.csrftoken.CsrfTokenFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,28 +18,35 @@ public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final AuthenticationProvider authenticationProvider;
+    private final CsrfTokenFilter csrfTokenFilter;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
+                // Disable Cross-Site Request Forgery (CSRF)
                 .csrf()
                 .disable()
+
+                // Authorize all http requests
                 .authorizeHttpRequests()
+
+                // Allow all to auth
                 .requestMatchers(
                         "/api/v1/auth/**"
                 )
                 .permitAll()
+
+                // Request everything else to be authenticated
                 .anyRequest()
                 .authenticated()
-                .and()
 
+                .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
 
+                .and()
                 .authenticationProvider(authenticationProvider)
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                ;
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)                ;
 
         return httpSecurity.build();
     }

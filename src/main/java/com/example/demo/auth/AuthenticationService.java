@@ -3,7 +3,7 @@ package com.example.demo.auth;
 import com.example.demo.auth.model.AuthenticationRequest;
 import com.example.demo.auth.model.AuthenticationResponse;
 import com.example.demo.auth.model.RegisterRequest;
-import com.example.demo.config.JwtService;
+import com.example.demo.auth.config.JwtService;
 import com.example.demo.user.Role;
 import com.example.demo.user.User;
 import com.example.demo.user.UserService;

@@ -1,4 +1,4 @@
-package com.example.demo.config;
+package com.example.demo.auth.config;
 
 import com.example.demo.user.UserService;
 import jakarta.servlet.FilterChain;
@@ -35,6 +35,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         final String jwtToken;
         final String username;
 
+        // If there's no auth header, move on to the next filter
         if (authHeader == null || !authHeader.startsWith(BEARER_PREFIX)) {
             filterChain.doFilter(request, response);
             return;
