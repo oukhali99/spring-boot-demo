@@ -38,6 +38,11 @@ public class SecurityConfiguration {
                 )
                 .permitAll()
 
+                .requestMatchers(
+                        "/api/v1/user"
+                )
+                .hasAuthority("ADMIN")
+
                 // Request everything else to be authenticated
                 .anyRequest()
                 .authenticated()

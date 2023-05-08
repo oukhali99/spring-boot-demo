@@ -1,6 +1,9 @@
 package com.example.demo.auth.model;
 
-import lombok.*;
+import com.example.demo.user.Role;
+import lombok.Builder;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 @Data
 @Builder
@@ -8,4 +11,5 @@ import lombok.*;
 public class RegisterRequest {
     private final String username;
     private final String password;
+    private final Role role;
 }
