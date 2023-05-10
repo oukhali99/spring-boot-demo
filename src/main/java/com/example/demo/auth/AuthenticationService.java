@@ -8,7 +8,7 @@ import com.example.demo.user.User;
 import com.example.demo.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 public class AuthenticationService {
     private final UserService userService;
     private final JwtService jwtService;
-    private final AuthenticationProvider authenticationManager;
+    private final AuthenticationManager authenticationManager;
     private final PasswordEncoder passwordEncoder;
 
     public AuthenticationResponse register(RegisterRequest request) {
@@ -54,9 +54,9 @@ public class AuthenticationService {
         // Get the user from the database
         UserDetails user = userService.loadUserByUsername(request.getUsername());
 
-        // Verify the password
+        // Verify the password (not necessary since authenticationManager didn't throw an exception)
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-            throw new Exception("Wrong password expected " + user.getPassword());
+            throw new Exception("Wrong password");
         }
 
         // Generate a jwt token and send it back
