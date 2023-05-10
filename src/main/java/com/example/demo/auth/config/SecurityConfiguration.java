@@ -3,11 +3,14 @@ package com.example.demo.auth.config;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -32,16 +35,17 @@ public class SecurityConfiguration {
                 // Authorize all http requests
                 .authorizeHttpRequests()
 
+                // Only allow admins to view all users
+                .requestMatchers(
+                        "/api/v1/user"
+                )
+                .hasAuthority("ADMIN")
+
                 // Allow all to auth
                 .requestMatchers(
                         "/api/v1/auth/**"
                 )
                 .permitAll()
-
-                .requestMatchers(
-                        "/api/v1/user"
-                )
-                .hasAuthority("ADMIN")
 
                 // Request everything else to be authenticated
                 .anyRequest()
@@ -69,5 +73,15 @@ public class SecurityConfiguration {
         authenticationProvider.setUserDetailsService(userDetailsService);
         authenticationProvider.setPasswordEncoder(passwordEncoder());
         return authenticationProvider;
+    }
+
+    @Bean
+    AuthenticationManager authenticationManager() {
+        return new AuthenticationManager() {
+            @Override
+            public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+                return authenticationProvider().authenticate(authentication);
+            }
+        };
     }
 }
