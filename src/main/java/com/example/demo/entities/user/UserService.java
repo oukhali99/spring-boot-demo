@@ -1,4 +1,4 @@
-package com.example.demo.user;
+package com.example.demo.entities.user;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;

@@ -1,6 +1,6 @@
 package com.example.demo.auth.config;
 
-import com.example.demo.user.UserService;
+import com.example.demo.entities.user.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

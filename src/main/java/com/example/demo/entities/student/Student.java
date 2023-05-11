@@ -1,4 +1,4 @@
-package com.example.demo.student;
+package com.example.demo.entities.student;
 
 import jakarta.persistence.*;
 import org.springframework.lang.NonNull;
