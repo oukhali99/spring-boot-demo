@@ -37,13 +37,19 @@ public class SecurityConfiguration {
 
                 // Only allow admins to view all users
                 .requestMatchers(
-                        "/api/v1/user"
+                        "/api/v1/user/**"
                 )
                 .hasAuthority("ADMIN")
 
                 // Allow all to auth
                 .requestMatchers(
                         "/api/v1/auth/**"
+                )
+                .permitAll()
+
+                // Allow everyone to view books
+                .requestMatchers(
+                        "/api/v1/book/**"
                 )
                 .permitAll()
 
