@@ -6,6 +6,6 @@ const initialState = {};
 
 export default createReducer(initialState, {
     [authActions.registerAction]: (state, action) => {
-        console.log("Register");
+        console.log("Register reducer");
     }
 })

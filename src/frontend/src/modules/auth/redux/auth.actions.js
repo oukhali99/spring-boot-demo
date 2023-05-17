@@ -1,16 +1,12 @@
 import { createAction } from "@reduxjs/toolkit";
-import bcrypt from "bcryptjs"
 
 export const registerAction = createAction("auth/registerAction");
 
 export const register = (username, password) => async (dispatch, getState) => {
-    const salt = bcrypt.genSaltSync(10);
-    const passwordHash = bcrypt.hashSync(password, salt);
-
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, passwordHash })
+        body: JSON.stringify({ username, password })
     };
 
 

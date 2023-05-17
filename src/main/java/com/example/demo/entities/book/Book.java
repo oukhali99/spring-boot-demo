@@ -1,9 +1,7 @@
 package com.example.demo.entities.book;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.example.demo.entities.user.User;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,4 +15,9 @@ public class Book {
     @Id
     @GeneratedValue
     private Long id;
+
+    @ManyToOne
+    private User renter;
+
+    private String name;
 }

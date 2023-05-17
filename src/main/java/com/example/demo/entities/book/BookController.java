@@ -1,6 +1,7 @@
 package com.example.demo.entities.book;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,6 +21,12 @@ public class BookController {
     @PostMapping
     public void addBook(@RequestBody Book book) {
         bookService.addBook(book);
+    }
+
+    @PostMapping(path = "/rent")
+    public void rentBook(@RequestParam Long id) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        bookService.rentBook(id, username);
     }
 
 }
