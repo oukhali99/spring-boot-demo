@@ -1,6 +1,6 @@
 import { createAction } from "@reduxjs/toolkit";
 
-export const registerAction = createAction("auth/registerAction");
+export const setToken = createAction("auth/setToken");
 
 export const register = (username, password) => async (dispatch, getState) => {
     const requestOptions = {
@@ -11,8 +11,22 @@ export const register = (username, password) => async (dispatch, getState) => {
 
 
     const result = await fetch("http://localhost:8080/api/v1/auth/register", requestOptions);
-    const response = await result.text();
-    console.log(response);
+    const token = result.json().token;
 
-    dispatch(registerAction());
+    dispatch(setToken({ token }));
+};
+
+export const authenticate = (username, password) => async (dispatch, getState) => {
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password })
+    };
+
+
+    const result = await fetch("http://localhost:8080/api/v1/auth/authenticate", requestOptions);
+    const token = result.json().token;
+    console.log(token);
+
+    dispatch(setToken({ token }));
 };

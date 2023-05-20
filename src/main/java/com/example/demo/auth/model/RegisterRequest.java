@@ -1,15 +1,14 @@
 package com.example.demo.auth.model;
 
-import com.example.demo.entities.user.Role;
-import lombok.Builder;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import com.example.demo.exception.ApiException;
 
-@Data
-@Builder
-@RequiredArgsConstructor
-public class RegisterRequest {
-    private final String username;
-    private final String password;
-    private final Role role;
+public record RegisterRequest(String username, String password) {
+    public RegisterRequest {
+        if (username == null) {
+            throw new ApiException("username cannot be null");
+        }
+        if (password == null) {
+            throw new ApiException("password cannot be null");
+        }
+    }
 }

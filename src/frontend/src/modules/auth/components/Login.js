@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { Container, Row, Col, Button, Form } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { Button, Form } from "react-bootstrap";
 import styled from "styled-components";
 
-import { actions as authActions } from "modules/auth";
+import { actions as authActions, selectors as authSelectors } from "modules/auth";
 
 const LoginContainer = styled.div`
   display: flex;
@@ -20,16 +20,27 @@ const LoginForm = styled(Form)`
 
 const Login = () => {
     const dispatch = useDispatch();
+
+    const isAuthenticated = useSelector(authSelectors.isAuthenticated);
+
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
     const handleLogin = () => {
-        dispatch(authActions.register());
+        dispatch(authActions.authenticate(username, password));
     };
 
     const handleRegister = () => {
         dispatch(authActions.register(username, password));
     };
+
+    if (isAuthenticated) {
+        return (
+            <div>
+                Already authenticated
+            </div>
+        );
+    }
 
     return (
         <LoginContainer>

@@ -4,6 +4,7 @@ import com.example.demo.auth.config.JwtService;
 import com.example.demo.auth.model.AuthenticationRequest;
 import com.example.demo.auth.model.AuthenticationResponse;
 import com.example.demo.auth.model.RegisterRequest;
+import com.example.demo.entities.user.Role;
 import com.example.demo.entities.user.User;
 import com.example.demo.entities.user.UserService;
 import lombok.RequiredArgsConstructor;
@@ -25,9 +26,9 @@ public class AuthenticationService {
     public AuthenticationResponse register(RegisterRequest request) {
         // Create a user
         User user = User.builder()
-                .username(request.getUsername())
-                .passwordHash(passwordEncoder.encode(request.getPassword()))
-                .role(request.getRole())
+                .username(request.username())
+                .passwordHash(passwordEncoder.encode(request.password()))
+                .role(Role.USER)
                 .build()
                 ;
 

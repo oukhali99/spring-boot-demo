@@ -2,10 +2,13 @@ import { createReducer } from "@reduxjs/toolkit";
 
 import { actions as authActions } from "..";
 
-const initialState = {};
+const initialState = {
+    token: undefined
+};
 
 export default createReducer(initialState, {
-    [authActions.registerAction]: (state, action) => {
-        console.log("Register reducer");
+    [authActions.setToken]: (state, action) => {
+        const { token } = action.payload;
+        state.token = token;
     }
 })
