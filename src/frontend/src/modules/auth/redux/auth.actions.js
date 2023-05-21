@@ -11,11 +11,15 @@ export const register = (username, password) => async (dispatch, getState) => {
 
 
     const result = await fetch("http://localhost:8080/api/v1/auth/register", requestOptions);
-    const res = await result.text();
-    console.log(res);
-    
-    //const token = result.json().token;
-    //dispatch(setToken({ token }));
+
+    const resJson = await result.json();
+    console.log(resJson);
+
+    const { success, payload } = resJson;    
+    if (success) {
+        const { token } = payload;
+        dispatch(setToken({ token }));
+    }
 };
 
 export const authenticate = (username, password) => async (dispatch, getState) => {
@@ -27,9 +31,13 @@ export const authenticate = (username, password) => async (dispatch, getState) =
 
 
     const result = await fetch("http://localhost:8080/api/v1/auth/authenticate", requestOptions);
-    const res = await result.text();
-    console.log(res);
-    
-    //const token = result.json().token;
-    //dispatch(setToken({ token }));
+
+    const resJson = await result.json();
+    console.log(resJson);
+
+    const { success, payload } = resJson;    
+    if (success) {
+        const { token } = payload;
+        dispatch(setToken({ token }));
+    }
 };

@@ -1,6 +1,7 @@
 package com.example.demo.auth;
 
 import com.example.demo.auth.config.JwtService;
+import com.example.demo.auth.exception.MyAuthenticationException;
 import com.example.demo.auth.model.AuthenticationRequest;
 import com.example.demo.auth.model.AuthenticationResponse;
 import com.example.demo.auth.model.RegisterRequest;
@@ -12,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -46,12 +48,17 @@ public class AuthenticationService {
     @SneakyThrows
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         // Verify that the credentials are valid (will throw an exception if not)
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        request.username(),
-                        request.password()
-                )
-        );
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            request.username(),
+                            request.password()
+                    )
+            );
+        }
+        catch (AuthenticationException e) {
+            throw new MyAuthenticationException(request.username());
+        }
 
         // Get the user from the database
         UserDetails user = userService.loadUserByUsername(request.username());

@@ -15,6 +15,12 @@ public class AuthenticationResponse implements ApiResponse {
 
     @Override
     public Object getPayload() {
-        return token;
+        return new AuthenticationPayload(token);
+    }
+
+    @Data
+    @RequiredArgsConstructor
+    private static class AuthenticationPayload {
+        private final String token;
     }
 }
