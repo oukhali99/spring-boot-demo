@@ -20,6 +20,8 @@ export const register = (username, password) => async (dispatch, getState) => {
         const { token } = payload;
         dispatch(setToken({ token }));
     }
+
+    return resJson;
 };
 
 export const authenticate = (username, password) => async (dispatch, getState) => {
@@ -40,4 +42,6 @@ export const authenticate = (username, password) => async (dispatch, getState) =
         const { token } = payload;
         dispatch(setToken({ token }));
     }
+
+    return resJson;
 };

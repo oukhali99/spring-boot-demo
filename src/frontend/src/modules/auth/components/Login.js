@@ -4,6 +4,7 @@ import { Button, Form } from "react-bootstrap";
 import styled from "styled-components";
 
 import { actions as authActions, selectors as authSelectors } from "modules/auth";
+import { ErrorMessage } from "modules/common";
 
 const LoginContainer = styled.div`
   display: flex;
@@ -25,13 +26,14 @@ const Login = () => {
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [response, setResponse] = useState("");
 
-    const handleLogin = () => {
-        dispatch(authActions.authenticate(username, password));
+    const handleLogin = async () => {
+        setResponse(await dispatch(authActions.authenticate(username, password)));
     };
 
-    const handleRegister = () => {
-        dispatch(authActions.register(username, password));
+    const handleRegister = async () => {
+        setResponse(await dispatch(authActions.register(username, password)));
     };
 
     if (isAuthenticated) {
@@ -73,6 +75,8 @@ const Login = () => {
                     Register
                 </Button>
             </LoginForm>
+
+            <ErrorMessage message={response} />
         </LoginContainer>
     );
 };
