@@ -7,6 +7,7 @@ import com.example.demo.auth.model.RegisterRequest;
 import com.example.demo.entities.user.Role;
 import com.example.demo.entities.user.User;
 import com.example.demo.entities.user.UserService;
+import com.example.demo.exception.ApiException;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -47,17 +48,17 @@ public class AuthenticationService {
         // Verify that the credentials are valid (will throw an exception if not)
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        request.getUsername(),
-                        request.getPassword()
+                        request.username(),
+                        request.password()
                 )
         );
 
         // Get the user from the database
-        UserDetails user = userService.loadUserByUsername(request.getUsername());
+        UserDetails user = userService.loadUserByUsername(request.username());
 
         // Verify the password (not necessary since authenticationManager didn't throw an exception)
-        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-            throw new Exception("Wrong password");
+        if (!passwordEncoder.matches(request.password(), user.getPassword())) {
+            throw new ApiException("Wrong password");
         }
 
         // Generate a jwt token and send it back

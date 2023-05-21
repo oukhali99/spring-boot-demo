@@ -11,9 +11,11 @@ export const register = (username, password) => async (dispatch, getState) => {
 
 
     const result = await fetch("http://localhost:8080/api/v1/auth/register", requestOptions);
-    const token = result.json().token;
-
-    dispatch(setToken({ token }));
+    const res = await result.text();
+    console.log(res);
+    
+    //const token = result.json().token;
+    //dispatch(setToken({ token }));
 };
 
 export const authenticate = (username, password) => async (dispatch, getState) => {
@@ -25,8 +27,9 @@ export const authenticate = (username, password) => async (dispatch, getState) =
 
 
     const result = await fetch("http://localhost:8080/api/v1/auth/authenticate", requestOptions);
-    const token = result.json().token;
-    console.log(token);
-
-    dispatch(setToken({ token }));
+    const res = await result.text();
+    console.log(res);
+    
+    //const token = result.json().token;
+    //dispatch(setToken({ token }));
 };
