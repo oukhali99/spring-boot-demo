@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Form } from "react-bootstrap";
 import styled from "styled-components";
+import { useHistory } from "react-router-dom";
 
 import { actions as authActions, selectors as authSelectors } from "modules/auth";
 import { ErrorMessage } from "modules/common";
@@ -21,6 +22,7 @@ const LoginForm = styled(Form)`
 
 const Login = () => {
     const dispatch = useDispatch();
+    const history = useHistory();
 
     const isAuthenticated = useSelector(authSelectors.isAuthenticated);
 
@@ -37,11 +39,7 @@ const Login = () => {
     };
 
     if (isAuthenticated) {
-        return (
-            <div>
-                Already authenticated
-            </div>
-        );
+        history.push("/books");
     }
 
     return (

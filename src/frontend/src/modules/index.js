@@ -1,8 +1,10 @@
 import { combineReducers } from "@reduxjs/toolkit";
-import { default as main } from "./main";
-import { default as auth } from "./auth";
+import main from "./main";
+import auth from "./auth";
+import book from "./book";
 
 export default combineReducers({
     main,
-    auth
+    auth,
+    book
 });
