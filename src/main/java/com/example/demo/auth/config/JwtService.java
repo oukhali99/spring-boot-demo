@@ -1,6 +1,8 @@
 package com.example.demo.auth.config;
 
+import com.example.demo.auth.exception.ExpiredJwtTokenApiException;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
@@ -61,13 +63,18 @@ public class JwtService {
     }
 
     private Claims extractAllClaims(String jwtToken) {
-        return Jwts
-                .parserBuilder()
-                .setSigningKey(getSigningKey())
-                .build()
-                .parseClaimsJws(jwtToken)
-                .getBody()
-                ;
+        try {
+            return Jwts
+                    .parserBuilder()
+                    .setSigningKey(getSigningKey())
+                    .build()
+                    .parseClaimsJws(jwtToken)
+                    .getBody()
+                    ;
+        }
+        catch (ExpiredJwtException e) {
+            throw new ExpiredJwtTokenApiException();
+        }
     }
 
     private Key getSigningKey() {
