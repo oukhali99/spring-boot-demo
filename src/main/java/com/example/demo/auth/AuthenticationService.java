@@ -1,10 +1,11 @@
 package com.example.demo.auth;
 
 import com.example.demo.auth.config.JwtService;
-import com.example.demo.auth.exception.MyAuthenticationException;
+import com.example.demo.auth.exception.AutenticationApiException;
 import com.example.demo.auth.model.AuthenticationRequest;
 import com.example.demo.auth.model.AuthenticationResponse;
 import com.example.demo.auth.model.RegisterRequest;
+import com.example.demo.config.response.ApiResponse;
 import com.example.demo.entities.user.Role;
 import com.example.demo.entities.user.User;
 import com.example.demo.entities.user.UserService;
@@ -46,7 +47,7 @@ public class AuthenticationService {
     }
 
     @SneakyThrows
-    public AuthenticationResponse authenticate(AuthenticationRequest request) {
+    public ApiResponse authenticate(AuthenticationRequest request) {
         // Verify that the credentials are valid (will throw an exception if not)
         try {
             authenticationManager.authenticate(
@@ -57,7 +58,7 @@ public class AuthenticationService {
             );
         }
         catch (AuthenticationException e) {
-            throw new MyAuthenticationException(request.username());
+            throw new AutenticationApiException(request.username());
         }
 
         // Get the user from the database

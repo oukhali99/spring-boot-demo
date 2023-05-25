@@ -4,4 +4,6 @@ public interface ApiResponse {
     boolean getSuccess();
 
     Object getPayload();
+
+    ErrorCode getErrorCode();
 }

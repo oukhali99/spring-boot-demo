@@ -2,14 +2,14 @@ import React from "react";
 import styled from "styled-components";
 
 const StyledDiv = styled.div`
-    color: ${ props => props.success ? "inherit" : "red" }
+    color: ${ props => props.message.success ? "inherit" : "red" }
 `;
 
 const ErrorMessage = ({ message }) => {
-    const { success, payload } = message;
+    const { payload } = message;
 
     return (
-        <StyledDiv success={success}>
+        <StyledDiv message={message}>
             {JSON.stringify(payload)}
         </StyledDiv>
     )

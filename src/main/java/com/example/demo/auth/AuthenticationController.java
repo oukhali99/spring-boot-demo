@@ -3,6 +3,7 @@ package com.example.demo.auth;
 import com.example.demo.auth.model.AuthenticationRequest;
 import com.example.demo.auth.model.AuthenticationResponse;
 import com.example.demo.auth.model.RegisterRequest;
+import com.example.demo.config.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +23,7 @@ public class AuthenticationController {
 
 
     @PostMapping("/authenticate")
-    public ResponseEntity<AuthenticationResponse> authenticate(
+    public ResponseEntity<ApiResponse> authenticate(
             @RequestBody AuthenticationRequest request
     ) {
         return ResponseEntity.ok(authenticationService.authenticate(request));

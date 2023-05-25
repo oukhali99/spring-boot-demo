@@ -28,7 +28,7 @@ public class ExceptionCatcherFilter extends OncePerRequestFilter {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response.getWriter().write(
                     objectMapper.writeValueAsString(
-                            new ApiResponseError(e)
+                            new ApiResponseError(e, e.getErrorCode())
                     )
             );
         }

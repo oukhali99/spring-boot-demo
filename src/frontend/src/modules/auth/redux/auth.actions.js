@@ -1,5 +1,7 @@
 import { createAction } from "@reduxjs/toolkit";
 
+import { actions as apiActions } from "modules/api";
+
 export const setToken = createAction("auth/setToken");
 
 export const register = (username, password) => async (dispatch, getState) => {
@@ -9,11 +11,7 @@ export const register = (username, password) => async (dispatch, getState) => {
         body: JSON.stringify({ username, password })
     };
 
-
-    const result = await fetch("http://localhost:8080/api/v1/auth/register", requestOptions);
-
-    const resJson = await result.json();
-    console.log(resJson);
+    const resJson = await dispatch(apiActions.request("http://localhost:8080/api/v1/auth/register", requestOptions));
 
     const { success, payload } = resJson;    
     if (success) {
@@ -31,13 +29,9 @@ export const authenticate = (username, password) => async (dispatch, getState) =
         body: JSON.stringify({ username, password })
     };
 
+    const resJson = await dispatch(apiActions.request("http://localhost:8080/api/v1/auth/authenticate", requestOptions));
 
-    const result = await fetch("http://localhost:8080/api/v1/auth/authenticate", requestOptions);
-
-    const resJson = await result.json();
-    console.log(resJson);
-
-    const { success, payload } = resJson;    
+    const { success, payload } = resJson;
     if (success) {
         const { token } = payload;
         dispatch(setToken({ token }));
@@ -45,3 +39,7 @@ export const authenticate = (username, password) => async (dispatch, getState) =
 
     return resJson;
 };
+
+export const resetToken = (dispatch, getState) => {
+    dispatch(setToken({ token: undefined }));
+}

@@ -9,4 +9,9 @@ public class ApiResponseSuccess extends ApiResponseBase {
     public boolean getSuccess() {
         return true;
     }
+
+    @Override
+    public ErrorCode getErrorCode() {
+        return ErrorCode.NONE;
+    }
 }
