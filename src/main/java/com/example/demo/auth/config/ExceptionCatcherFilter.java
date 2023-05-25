@@ -1,6 +1,6 @@
 package com.example.demo.auth.config;
 
-import com.example.demo.config.response.ApiResponseError;
+import com.example.demo.config.response.ResponseContentError;
 import com.example.demo.exception.ApiException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
@@ -28,7 +28,7 @@ public class ExceptionCatcherFilter extends OncePerRequestFilter {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response.getWriter().write(
                     objectMapper.writeValueAsString(
-                            new ApiResponseError(e, e.getErrorCode())
+                            new ResponseContentError(e, e.getErrorCode())
                     )
             );
         }

@@ -1,7 +1,7 @@
 package com.example.demo.entities.book;
 
-import com.example.demo.config.response.ApiResponse;
-import com.example.demo.config.response.ApiResponseSuccess;
+import com.example.demo.config.response.ResponseContent;
+import com.example.demo.config.response.ResponseContentSuccess;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -14,22 +14,22 @@ public class BookController {
     private BookService bookService;
 
     @GetMapping
-    public ApiResponse home() {
-        return new ApiResponseSuccess(bookService.getBooks());
+    public ResponseContent home() {
+        return new ResponseContentSuccess(bookService.getBooks());
     }
 
     @PostMapping
-    public ApiResponse addBook(@RequestBody Book book) {
+    public ResponseContent addBook(@RequestBody Book book) {
         bookService.addBook(book);
-        return new ApiResponseSuccess("Successfully added book " + book.getName());
+        return new ResponseContentSuccess("Successfully added book " + book.getName());
     }
 
     @PostMapping(path = "/rent")
-    public ApiResponse rentBook(@RequestParam Long id) {
+    public ResponseContent rentBook(@RequestParam Long id) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         bookService.rentBook(id, username);
 
-        return new ApiResponseSuccess("Successfully rented book " + id);
+        return new ResponseContentSuccess("Successfully rented book " + id);
     }
 
 }

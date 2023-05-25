@@ -1,7 +1,7 @@
 package com.example.demo.config.response;
 
-public class ApiResponseSuccess extends ApiResponseBase {
-    public ApiResponseSuccess(Object object) {
+public class ResponseContentSuccess extends ResponseContentBase {
+    public ResponseContentSuccess(Object object) {
         super(object);
     }
 

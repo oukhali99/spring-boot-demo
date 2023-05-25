@@ -1,9 +1,9 @@
 package com.example.demo.config.response;
 
-public abstract class ApiResponseBase implements ApiResponse {
+public abstract class ResponseContentBase implements ResponseContent {
     private final Object object;
 
-    public ApiResponseBase(Object object) {
+    public ResponseContentBase(Object object) {
         this.object = object;
     }
 

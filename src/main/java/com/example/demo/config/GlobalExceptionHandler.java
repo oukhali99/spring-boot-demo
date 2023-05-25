@@ -1,6 +1,6 @@
 package com.example.demo.config;
 
-import com.example.demo.config.response.ApiResponseError;
+import com.example.demo.config.response.ResponseContentError;
 import com.example.demo.exception.ApiException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +16,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ApiException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ResponseEntity<Object> handleException(ApiException ex) {
-        return ResponseEntity.ok(new ApiResponseError(ex ,ex.getErrorCode()));
+        return ResponseEntity.ok(new ResponseContentError(ex ,ex.getErrorCode()));
     }
 
 }

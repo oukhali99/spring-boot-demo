@@ -1,12 +1,12 @@
 package com.example.demo.auth.model;
 
-import com.example.demo.config.response.ApiResponse;
+import com.example.demo.config.response.ResponseContent;
 import com.example.demo.config.response.ErrorCode;
 import lombok.*;
 
 @Builder
 @RequiredArgsConstructor
-public class AuthenticationResponse implements ApiResponse {
+public class AuthenticationResponseContent implements ResponseContent {
     private final String token;
 
     @Override

@@ -1,6 +1,6 @@
 package com.example.demo.config.response;
 
-public interface ApiResponse {
+public interface ResponseContent {
     boolean getSuccess();
 
     Object getPayload();

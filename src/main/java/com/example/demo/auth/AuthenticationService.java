@@ -3,9 +3,9 @@ package com.example.demo.auth;
 import com.example.demo.auth.config.JwtService;
 import com.example.demo.auth.exception.AutenticationApiException;
 import com.example.demo.auth.model.AuthenticationRequest;
-import com.example.demo.auth.model.AuthenticationResponse;
+import com.example.demo.auth.model.AuthenticationResponseContent;
 import com.example.demo.auth.model.RegisterRequest;
-import com.example.demo.config.response.ApiResponse;
+import com.example.demo.config.response.ResponseContent;
 import com.example.demo.entities.user.Role;
 import com.example.demo.entities.user.User;
 import com.example.demo.entities.user.UserService;
@@ -27,7 +27,7 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final PasswordEncoder passwordEncoder;
 
-    public AuthenticationResponse register(RegisterRequest request) {
+    public AuthenticationResponseContent register(RegisterRequest request) {
         // Create a user
         User user = User.builder()
                 .username(request.username())
@@ -41,13 +41,13 @@ public class AuthenticationService {
 
         // Create and return a jwt token
         String jwtToken = jwtService.generateToken(user);
-        return AuthenticationResponse.builder()
+        return AuthenticationResponseContent.builder()
                 .token(jwtToken)
                 .build();
     }
 
     @SneakyThrows
-    public ApiResponse authenticate(AuthenticationRequest request) {
+    public ResponseContent authenticate(AuthenticationRequest request) {
         // Verify that the credentials are valid (will throw an exception if not)
         try {
             authenticationManager.authenticate(
@@ -71,7 +71,7 @@ public class AuthenticationService {
 
         // Generate a jwt token and send it back
         String jwtToken = jwtService.generateToken(user);
-        return AuthenticationResponse.builder()
+        return AuthenticationResponseContent.builder()
                 .token(jwtToken)
                 .build();
     }

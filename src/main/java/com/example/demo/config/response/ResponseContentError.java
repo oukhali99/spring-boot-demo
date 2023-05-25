@@ -1,9 +1,9 @@
 package com.example.demo.config.response;
 
-public class ApiResponseError extends ApiResponseBase {
+public class ResponseContentError extends ResponseContentBase {
     private final ErrorCode errorCode;
 
-    public ApiResponseError(Object object, ErrorCode errorCode) {
+    public ResponseContentError(Object object, ErrorCode errorCode) {
         super(object);
         this.errorCode = errorCode;
     }
