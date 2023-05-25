@@ -20,4 +20,8 @@ public class Book {
     private User renter;
 
     private String name;
+
+    public boolean isRented() {
+        return renter != null;
+    }
 }

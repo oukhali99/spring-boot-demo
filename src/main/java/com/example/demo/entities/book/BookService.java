@@ -1,5 +1,6 @@
 package com.example.demo.entities.book;
 
+import com.example.demo.entities.book.exception.BookAlreadyRentedException;
 import com.example.demo.entities.user.User;
 import com.example.demo.entities.user.UserRepository;
 import jakarta.transaction.Transactional;
@@ -31,6 +32,12 @@ public class BookService {
         System.out.println(user.getUsername());
 
         Book book = bookRepository.getReferenceById(bookId);
+
+        // Check if the book is already rented
+        if (book.isRented()) {
+            throw new BookAlreadyRentedException(bookId);
+        }
+
         book.setRenter(user);
     }
 
