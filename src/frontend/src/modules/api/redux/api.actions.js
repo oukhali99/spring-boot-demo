@@ -15,8 +15,8 @@ export const request = (url, requestOptions) => async (dispatch, getState) => {
     return resJson;
 };
 
-const handleErrorCode = errorCode => (dispatch, getState) => {
+const handleErrorCode = (errorCode) => (dispatch, getState) => {
     if (errorCode === "EXPIRED_JWT_TOKEN") {
         dispatch(authActions.resetToken);
     }
-}
+};

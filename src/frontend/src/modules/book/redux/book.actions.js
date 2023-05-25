@@ -4,7 +4,7 @@ export const fetchBooksSuccess = createAction("book/fetchBooksSuccess");
 
 export const fetchBooks = async (dispatch, getState) => {
     const requestOptions = {
-        method: 'GET'
+        method: "GET",
     };
 
     const result = await fetch("http://localhost:8080/api/v1/book", requestOptions);
@@ -19,4 +19,4 @@ export const fetchBooks = async (dispatch, getState) => {
     }
 
     return resJson;
-}
+};

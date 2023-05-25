@@ -1,1 +1,1 @@
-export const getBooks = state => state.book.books;
+export const getBooks = (state) => state.book.books;

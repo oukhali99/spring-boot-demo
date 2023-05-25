@@ -1,44 +1,39 @@
-import React from 'react';
-import axios from 'axios';
-import { Link } from 'react-router-dom';
+import React from "react";
+import axios from "axios";
+import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { actions as mainActions, selectors as mainSelectors } from "..";
 
-class Login extends React.Component
-{
-    constructor(props)
-    {
+class Login extends React.Component {
+    constructor(props) {
         super(props);
-        this.state = {username: '', password: '', display: '', email: ''};
-        
+        this.state = { username: "", password: "", display: "", email: "" };
+
         this.login = this.login.bind(this);
         this.changeUsernameHandler = this.changeUsernameHandler.bind(this);
         this.changePasswordHandler = this.changePasswordHandler.bind(this);
     }
 
-    async login(e)
-	{
-        this.setState({display: ''});
+    async login(e) {
+        this.setState({ display: "" });
         e.preventDefault();
-        
+
         // Check if you are already logged in
-        if (this.props.appState.loggedIn)
-        {
-            this.setState({display: 'You are already logged in'});
+        if (this.props.appState.loggedIn) {
+            this.setState({ display: "You are already logged in" });
             return;
         }
-        
+
         // Call the login API call
         const username = this.state.username;
         const password = this.state.password;
         const email = this.state.email;
-        const user = {username, password, email};
-        const res = await axios.post(process.env.REACT_APP_SERVER_URL + '/users/login', user);
+        const user = { username, password, email };
+        const res = await axios.post(process.env.REACT_APP_SERVER_URL + "/users/login", user);
         const success = res.data.success;
-        console.log('Calling /login... ' + res.data.message);
-        this.setState({display: res.data.message});
-        if (!success)
-        {
+        console.log("Calling /login... " + res.data.message);
+        this.setState({ display: res.data.message });
+        if (!success) {
             return;
         }
 
@@ -46,91 +41,101 @@ class Login extends React.Component
         this.props.setSessionState(res.data.content);
 
         // Update appState
-        this.props.setAppState({loggedIn: true});
+        this.props.setAppState({ loggedIn: true });
     }
-    
-    changeUsernameHandler(e)
-    {
+
+    changeUsernameHandler(e) {
         this.setState({
-            username: e.target.value
+            username: e.target.value,
         });
     }
 
-    changePasswordHandler(e)
-    {
+    changePasswordHandler(e) {
         this.setState({
-            password: e.target.value
+            password: e.target.value,
         });
     }
 
-    render()
-    {
-        if (this.props.appState.loggedIn)
-        {
+    render() {
+        if (this.props.appState.loggedIn) {
             return (
                 <div
                     style={{
                         textAlign: "center",
-                        marginTop: "15%"
+                        marginTop: "15%",
                     }}
                 >
-                    You are now logged in!<br/>
-                    <Link to='/'>Click here to proceed</Link>
+                    You are now logged in!
+                    <br />
+                    <Link to="/">Click here to proceed</Link>
                 </div>
             );
         }
-        
-        return (
-            <div style={{marginLeft: "30%", marginRight: "30%", marginTop: "10%"}}>
-                <form className="form-group" onSubmit={this.login}>
-                    <div style={{marginBottom: "30px"}}>
-                        <label>E-Mail</label>
-                        <input className='form-control' value={this.state.email} onChange={(e) => this.setState({email: e.target.value})}/>  
-                    </div> 
-                    <div style={{marginBottom: "30px"}}>
-                        <label>Username</label>
-                        <input className='form-control' value={this.state.username} onChange={this.changeUsernameHandler}/>  
-                    </div>                  
-                    <div style={{marginBottom: "30px"}}>
-                        <label>Password</label>
-                        <input className='form-control' value={this.state.password} onChange={this.changePasswordHandler} type="password"/>
-                    </div>
 
-                    <div 
+        return (
+            <div style={{ marginLeft: "30%", marginRight: "30%", marginTop: "10%" }}>
+                <form className="form-group" onSubmit={this.login}>
+                    <div style={{ marginBottom: "30px" }}>
+                        <label>E-Mail</label>
+                        <input
+                            className="form-control"
+                            value={this.state.email}
+                            onChange={(e) => this.setState({ email: e.target.value })}
+                        />
+                    </div>
+                    <div style={{ marginBottom: "30px" }}>
+                        <label>Username</label>
+                        <input
+                            className="form-control"
+                            value={this.state.username}
+                            onChange={this.changeUsernameHandler}
+                        />
+                    </div>
+                    <div style={{ marginBottom: "30px" }}>
+                        <label>Password</label>
+                        <input
+                            className="form-control"
+                            value={this.state.password}
+                            onChange={this.changePasswordHandler}
+                            type="password"
+                        />
+                    </div>
+                    <div
                         style={{
-                            textAlign: "right"
+                            textAlign: "right",
                         }}
                     >
-                        <button 
-                            className='form-control' 
-                            onClick={this.login} 
+                        <button
+                            className="form-control"
+                            onClick={this.login}
                             style={{
-                                display: "inline-block", 
-                                marginRight: "10px", 
-                                marginBottom: "10px", 
-                                width: "80px"
+                                display: "inline-block",
+                                marginRight: "10px",
+                                marginBottom: "10px",
+                                width: "80px",
                             }}
                         >
                             Login
                         </button>
                     </div>
-                    Don't have an account yet? <Link to='/register' style={{}}>Create one for free</Link>
-                    <div style={{textAlign: "center", color: "red"}}>
-                        {this.state.display}
-                    </div>
+                    Don't have an account yet?{" "}
+                    <Link to="/register" style={{}}>
+                        Create one for free
+                    </Link>
+                    <div style={{ textAlign: "center", color: "red" }}>{this.state.display}</div>
                 </form>
             </div>
         );
     }
 }
 
-const stateToProps = state => ({
-    appState: mainSelectors.getAppState(state)
+const stateToProps = (state) => ({
+    appState: mainSelectors.getAppState(state),
 });
 
 const dispatchToProps = {
     setAppState: mainActions.setAppState,
-    setSessionState: mainActions.setSessionState
+    setSessionState: mainActions.setSessionState,
 };
 
 export default connect(stateToProps, dispatchToProps)(Login);

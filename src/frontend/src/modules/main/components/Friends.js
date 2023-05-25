@@ -1,30 +1,26 @@
-import React from 'react';
-import axios from 'axios';
+import React from "react";
+import axios from "axios";
 import { connect } from "react-redux";
 import { selectors as mainSelectors, actions as mainActions } from "..";
 
-class Friends extends React.Component
-{
-    constructor(props)
-    {
+class Friends extends React.Component {
+    constructor(props) {
         super(props);
 
         const sessionState = this.props.sessionState;
         this.state = {
             friends: sessionState.friends,
             friendRequests: sessionState.friendRequests,
-        }
+        };
     }
 
-    render()
-    {
-        if (!this.props.appState.loggedIn)
-        {
+    render() {
+        if (!this.props.appState.loggedIn) {
             return (
                 <div
                     style={{
                         textAlign: "center",
-                        marginTop: "15%"
+                        marginTop: "15%",
                     }}
                 >
                     Please login to access your friends
@@ -32,16 +28,18 @@ class Friends extends React.Component
             );
         }
 
-        const friends = this.state.friends.map(friend => <li key={friend}>{friend}</li>);
-        const friendRequests = this.state.friendRequests.map(friend => <li key={friend}>{friend}</li>);
-        
+        const friends = this.state.friends.map((friend) => <li key={friend}>{friend}</li>);
+        const friendRequests = this.state.friendRequests.map((friend) => (
+            <li key={friend}>{friend}</li>
+        ));
+
         return (
             <div
                 style={{
-                    textAlign: 'center'
+                    textAlign: "center",
                 }}
             >
-                <div 
+                <div
                     style={{
                         marginTop: "5%",
                         marginBottom: "5%",
@@ -49,20 +47,20 @@ class Friends extends React.Component
                         padding: "50px",
                         borderStyle: "solid",
                         borderRadius: "20px",
-                        borderColor: '#3e444b'
+                        borderColor: "#3e444b",
                     }}
-                >             
+                >
                     <div
                         style={{
                             borderStyle: "solid",
                             display: "inline-block",
                             marginBottom: "70px",
-                            padding: "15px"
+                            padding: "15px",
                         }}
                     >
                         <h1
                             style={{
-                                textDecoration: "underline"
+                                textDecoration: "underline",
                             }}
                         >
                             Friend Requests
@@ -70,24 +68,25 @@ class Friends extends React.Component
                         <div
                             style={{
                                 margin: "10px",
-                                textAlign: 'left'
+                                textAlign: "left",
                             }}
                         >
-                            {friendRequests.length !== 0 ? friendRequests : 'None yet'}
+                            {friendRequests.length !== 0 ? friendRequests : "None yet"}
                         </div>
-                    </div><br/>
+                    </div>
+                    <br />
 
                     <div
                         style={{
                             borderStyle: "solid",
                             display: "inline-block",
                             marginBottom: "70px",
-                            padding: "15px"
+                            padding: "15px",
                         }}
                     >
                         <h1
                             style={{
-                                textDecoration: "underline"
+                                textDecoration: "underline",
                             }}
                         >
                             Friends
@@ -95,12 +94,13 @@ class Friends extends React.Component
                         <div
                             style={{
                                 margin: "10px",
-                                textAlign: 'left'
+                                textAlign: "left",
                             }}
                         >
-                            {friends.length !== 0 ? friends : 'None yet'}
+                            {friends.length !== 0 ? friends : "None yet"}
                         </div>
-                    </div><br/>
+                    </div>
+                    <br />
 
                     <FriendForm
                         methods={this.props.methods}
@@ -113,40 +113,36 @@ class Friends extends React.Component
     }
 }
 
-class FriendForm extends React.Component
-{
-    constructor(props)
-    {
+class FriendForm extends React.Component {
+    constructor(props) {
         super(props);
         this.state = {
-            friendName: '',
-            display: '',
-            displayColor: 'white'
+            friendName: "",
+            display: "",
+            displayColor: "white",
         };
         this.action = this.action.bind(this);
         this.changedFriendName = this.changedFriendName.bind(this);
     }
 
-    async action(e, action)
-    {
+    async action(e, action) {
         e.preventDefault();
         const sessionState = this.props.sessionState;
         const sessionId = sessionState.sessionId;
         const userId = sessionState.userId;
         const friendUsername = this.state.friendName;
 
-        const body = {sessionId, userId, friendUsername};
+        const body = { sessionId, userId, friendUsername };
 
         // Call API /friends/add
-        const res = await axios.post(process.env.REACT_APP_SERVER_URL + '/friends' + action, body);
+        const res = await axios.post(process.env.REACT_APP_SERVER_URL + "/friends" + action, body);
         const success = res.data.success;
-        console.log('Adding friend... ' + res.data.message);
+        console.log("Adding friend... " + res.data.message);
         this.setState({
             display: res.data.message,
-            displayColor: res.data.success ? 'white' : 'red'
-        })
-        if (!success)
-        {
+            displayColor: res.data.success ? "white" : "red",
+        });
+        if (!success) {
             return;
         }
 
@@ -157,24 +153,22 @@ class FriendForm extends React.Component
         this.props.setParentState(res.data.content);
     }
 
-    changedFriendName(e)
-    {
-        this.setState({friendName: e.target.value});
+    changedFriendName(e) {
+        this.setState({ friendName: e.target.value });
     }
 
-    render()
-    {
-        return (            
+    render() {
+        return (
             <div
                 style={{
                     borderStyle: "solid",
                     display: "inline-block",
-                    padding: "20px"
+                    padding: "20px",
                 }}
             >
                 <h1
                     style={{
-                        textDecoration: "underline"
+                        textDecoration: "underline",
                     }}
                 >
                     Options
@@ -184,42 +178,43 @@ class FriendForm extends React.Component
                     style={{
                         marginBottom: "-15px",
                         width: "90%",
-                        marginLeft: "5%"
+                        marginLeft: "5%",
                     }}
-                    className='form-control' 
-                    value={this.state.friendName} 
+                    className="form-control"
+                    value={this.state.friendName}
                     onChange={this.changedFriendName}
-                /><br/>
+                />
+                <br />
 
-                <button 
+                <button
                     style={{
                         width: "130px",
-                        display: 'inline-block',
+                        display: "inline-block",
                         marginBottom: "10px",
-                        borderRadius: '5px 0 0 5px'
+                        borderRadius: "5px 0 0 5px",
                     }}
-                    className='form-control' 
-                    onClick={(e) => this.action(e, '/add')}
+                    className="form-control"
+                    onClick={(e) => this.action(e, "/add")}
                 >
                     Add Friend
                 </button>
 
-                <button 
+                <button
                     style={{
                         width: "160px",
-                        display: 'inline-block',
+                        display: "inline-block",
                         marginBottom: "10px",
-                        borderRadius: "0 5px 5px 0"
+                        borderRadius: "0 5px 5px 0",
                     }}
-                    className='form-control' 
-                    onClick={(e) => this.action(e, '/remove')}
+                    className="form-control"
+                    onClick={(e) => this.action(e, "/remove")}
                 >
                     Remove Friend
                 </button>
 
                 <div
                     style={{
-                        color: this.state.displayColor
+                        color: this.state.displayColor,
                     }}
                 >
                     {this.state.display}
@@ -229,13 +224,13 @@ class FriendForm extends React.Component
     }
 }
 
-const stateToProps = state => ({
+const stateToProps = (state) => ({
     appState: mainSelectors.getAppState(state),
-    sessionState: mainSelectors.getSessionState(state)
+    sessionState: mainSelectors.getSessionState(state),
 });
 
 const dispatchToProps = {
-    setSessionState: mainActions.setSessionState
+    setSessionState: mainActions.setSessionState,
 };
 
 export default connect(stateToProps, dispatchToProps)(Friends);

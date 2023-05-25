@@ -8,16 +8,16 @@ import { actions as authActions, selectors as authSelectors } from "modules/auth
 import { ErrorMessage } from "modules/common";
 
 const LoginContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
 `;
 
 const LoginForm = styled(Form)`
-  width: 300px;
-  padding: 20px;
-  border-radius: 5px;
+    width: 300px;
+    padding: 20px;
+    border-radius: 5px;
 `;
 
 const Login = () => {

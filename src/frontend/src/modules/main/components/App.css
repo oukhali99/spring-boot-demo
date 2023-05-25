@@ -1,15 +1,12 @@
-body
-{
-    background-color: #1e2225/*#343a40*/;
+body {
+    background-color: #1e2225 /*#343a40*/;
     color: white;
     font-family: "Verdana";
 }
 
-.simpleClickable
-{
+.simpleClickable {
     text-decoration: underline;
 }
-.simpleClickable:hover
-{
+.simpleClickable:hover {
     color: blue;
 }

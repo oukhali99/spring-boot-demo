@@ -1,42 +1,32 @@
-import React from 'react';
-import axios from 'axios';
+import React from "react";
+import axios from "axios";
 
-class UserList extends React.Component 
-{
-    constructor(props)
-    {
+class UserList extends React.Component {
+    constructor(props) {
         super(props);
-        this.state = {usernameList: []};
+        this.state = { usernameList: [] };
     }
 
-    async componentDidMount()
-    {
+    async componentDidMount() {
         const res = await axios.get(process.env.REACT_APP_SERVER_URL + "/users/");
         const success = res.data.success;
         console.log(res.data.message);
-        if (!success)
-        {
+        if (!success) {
             return;
         }
         const usernames = res.data.content.usernames;
-        this.setState({usernameList: usernames});
+        this.setState({ usernameList: usernames });
     }
 
-    render()
-    {
+    render() {
         return (
             <div
                 style={{
                     textAlign: "center",
-                    marginTop: "10%"
+                    marginTop: "10%",
                 }}
             >
-                <h3
-                    style={{
-                    }}
-                >
-                    User List
-                </h3>
+                <h3 style={{}}>User List</h3>
 
                 <div
                     style={{
@@ -44,15 +34,16 @@ class UserList extends React.Component
                         display: "inline-block",
                         borderRadius: "10px",
                         padding: "20px",
-                        marginTop: "20px"
+                        marginTop: "20px",
                     }}
                 >
-                    {this.state.usernameList.map(username => (<li key={username}>{username}</li>))}
+                    {this.state.usernameList.map((username) => (
+                        <li key={username}>{username}</li>
+                    ))}
                 </div>
-            </div>    
+            </div>
         );
     }
 }
-    
+
 export default UserList;
-    

@@ -2,17 +2,11 @@ import React from "react";
 import styled from "styled-components";
 
 const StyledDiv = styled.div`
-    color: ${ props => props.message.success ? "inherit" : "red" }
+    color: ${(props) => (props.message.success ? "inherit" : "red")};
 `;
 
 const ErrorMessage = ({ message }) => {
-    const { payload } = message;
-
-    return (
-        <StyledDiv message={message}>
-            {JSON.stringify(payload)}
-        </StyledDiv>
-    )
-}
+    return <StyledDiv message={message}>{JSON.stringify(message)}</StyledDiv>;
+};
 
 export default ErrorMessage;

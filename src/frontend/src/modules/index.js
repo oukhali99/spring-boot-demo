@@ -6,5 +6,5 @@ import book from "./book";
 export default combineReducers({
     main,
     auth,
-    book
+    book,
 });

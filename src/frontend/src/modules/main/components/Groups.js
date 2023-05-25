@@ -1,31 +1,27 @@
-import React from 'react';
-import axios from 'axios';
+import React from "react";
+import axios from "axios";
 import { connect } from "react-redux";
 import { selectors as mainSelectors, actions as mainActions } from "..";
 
-class Groups extends React.Component
-{
-    constructor(props)
-    {
+class Groups extends React.Component {
+    constructor(props) {
         super(props);
-        
+
         const sessionState = this.props.sessionState;
         this.state = {
-            name: '',
-            password: '',
+            name: "",
+            password: "",
             groups: sessionState.groups,
             members: [],
-            expandedGroupIndex: -1
+            expandedGroupIndex: -1,
         };
 
         this.callGroups = this.callGroups.bind(this);
         this.getMembers = this.getMembers.bind(this);
     }
 
-    async callGroups(e, action)
-    {
-        if (e !== undefined)
-        {
+    async callGroups(e, action) {
+        if (e !== undefined) {
             e.preventDefault();
         }
 
@@ -36,13 +32,12 @@ class Groups extends React.Component
         const name = this.state.name;
         const password = this.state.password;
 
-        const body = {sessionState, sessionId, userId, name, password};
+        const body = { sessionState, sessionId, userId, name, password };
 
-        const res = await axios.post(process.env.REACT_APP_SERVER_URL + '/groups/' + action, body);
+        const res = await axios.post(process.env.REACT_APP_SERVER_URL + "/groups/" + action, body);
         const success = res.data.success;
         console.log(res.data.message);
-        if (!success)
-        {
+        if (!success) {
             return;
         }
 
@@ -50,11 +45,9 @@ class Groups extends React.Component
         this.setState(res.data.content);
     }
 
-    async getMembers(name, index)
-    {
-        if (index === this.state.expandedGroupIndex)
-        {
-            this.setState({expandedGroupIndex: -1});
+    async getMembers(name, index) {
+        if (index === this.state.expandedGroupIndex) {
+            this.setState({ expandedGroupIndex: -1 });
             return;
         }
 
@@ -62,52 +55,49 @@ class Groups extends React.Component
         const sessionId = sessionState.sessionId;
         const userId = sessionState.userId;
 
-        const body = {sessionState, sessionId, userId, name};
+        const body = { sessionState, sessionId, userId, name };
 
-        const res = await axios.post(process.env.REACT_APP_SERVER_URL + '/groups/getMembers', body);
+        const res = await axios.post(process.env.REACT_APP_SERVER_URL + "/groups/getMembers", body);
         const success = res.data.success;
         console.log(res.data.message);
-        if (!success)
-        {
+        if (!success) {
             return;
         }
 
         this.props.setSessionState(res.data.content);
         this.setState(res.data.content);
-        this.setState({expandedGroupIndex: index});
+        this.setState({ expandedGroupIndex: index });
     }
 
-    render()
-    {
-        if (!this.props.appState.loggedIn)
-        {
+    render() {
+        if (!this.props.appState.loggedIn) {
             return (
                 <div
                     style={{
                         textAlign: "center",
-                        marginTop: "15%"
+                        marginTop: "15%",
                     }}
                 >
                     Please login to access this page
                 </div>
             );
         }
-        
-        const membersElement = this.state.members.map(member => <li key={member}>{member}</li>)
+
+        const membersElement = this.state.members.map((member) => <li key={member}>{member}</li>);
         const groupElements = [];
-        for (var i = 0; i < this.state.groups.length; i++)
-        {
+        for (var i = 0; i < this.state.groups.length; i++) {
             const group = this.state.groups[i];
             const index = i;
             const groupElement = (
-                <div key={group} >                    
-                    <h5 onClick={() => this.getMembers(group, index)} style={{cursor: "pointer"}} className="simpleClickable">
+                <div key={group}>
+                    <h5
+                        onClick={() => this.getMembers(group, index)}
+                        style={{ cursor: "pointer" }}
+                        className="simpleClickable"
+                    >
                         {group}
                     </h5>
-                    <div>
-                        {this.state.expandedGroupIndex === index ? membersElement : []}
-                    </div>
-
+                    <div>{this.state.expandedGroupIndex === index ? membersElement : []}</div>
                 </div>
             );
 
@@ -115,24 +105,46 @@ class Groups extends React.Component
         }
 
         return (
-            <div style={{textAlign: "center"}}>
+            <div style={{ textAlign: "center" }}>
                 <div>
                     <h1>Your groups</h1>
-                    {groupElements.map(groupElement => groupElement)}
+                    {groupElements.map((groupElement) => groupElement)}
                 </div>
                 <form>
-                    <div style={{marginBottom: "20px", marginTop: "30px"}}>
-                        Name<br/>
-                        <input type='text' onChange={(e) => this.setState({name: e.target.value})} value={this.state.name}/>
+                    <div style={{ marginBottom: "20px", marginTop: "30px" }}>
+                        Name
+                        <br />
+                        <input
+                            type="text"
+                            onChange={(e) => this.setState({ name: e.target.value })}
+                            value={this.state.name}
+                        />
                     </div>
-                    <div style={{marginBottom: "30px"}}>
-                        Password<br/>
-                        <input type='password' onChange={(e) => this.setState({password: e.target.value})} value={this.state.password}/>
+                    <div style={{ marginBottom: "30px" }}>
+                        Password
+                        <br />
+                        <input
+                            type="password"
+                            onChange={(e) => this.setState({ password: e.target.value })}
+                            value={this.state.password}
+                        />
                     </div>
-                    <div style={{marginBottom: "30px"}}>
-                        <input type='submit' onClick={(e) => this.callGroups(e, 'join')} value='Join'/>
-                        <input type='submit' onClick={(e) => this.callGroups(e, 'create')} value='Create'/>
-                        <input type='submit' onClick={(e) => this.callGroups(e, 'leave')} value='Leave'/>
+                    <div style={{ marginBottom: "30px" }}>
+                        <input
+                            type="submit"
+                            onClick={(e) => this.callGroups(e, "join")}
+                            value="Join"
+                        />
+                        <input
+                            type="submit"
+                            onClick={(e) => this.callGroups(e, "create")}
+                            value="Create"
+                        />
+                        <input
+                            type="submit"
+                            onClick={(e) => this.callGroups(e, "leave")}
+                            value="Leave"
+                        />
                     </div>
                 </form>
             </div>
@@ -140,13 +152,13 @@ class Groups extends React.Component
     }
 }
 
-const stateToProps = state => ({
+const stateToProps = (state) => ({
     appState: mainSelectors.getAppState(state),
-    sessionState: mainSelectors.getSessionState(state)
+    sessionState: mainSelectors.getSessionState(state),
 });
 
 const dispatchToProps = {
-    setSessionState: mainActions.setSessionState
+    setSessionState: mainActions.setSessionState,
 };
 
 export default connect(stateToProps, dispatchToProps)(Groups);

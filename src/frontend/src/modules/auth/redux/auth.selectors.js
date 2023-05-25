@@ -1,1 +1,1 @@
-export const isAuthenticated = state => state.auth.token !== undefined;
+export const isAuthenticated = (state) => state.auth.token !== undefined;

@@ -1,37 +1,34 @@
-import React from 'react';
-import { Link } from 'react-router-dom'
+import React from "react";
+import { Link } from "react-router-dom";
 
-class Home extends React.Component
-{
-    render()
-    {
+class Home extends React.Component {
+    render() {
         return (
-            <div 
+            <div
                 style={{
-                    marginTop: "15%", 
-                    textAlign: "center"
+                    marginTop: "15%",
+                    textAlign: "center",
                 }}
             >
-                <h1 
+                <h1
                     style={{
-                        marginBottom: "20px"
+                        marginBottom: "20px",
                     }}
                 >
                     Ko-Ordinator
                 </h1>
-                <Link 
-                    to='/login' 
-                    id="frontPageButton" 
+                <Link
+                    to="/login"
+                    id="frontPageButton"
                     style={{
-                        fontSize: "20px"
+                        fontSize: "20px",
                     }}
                 >
                     Get Started
                 </Link>
-            </div>    
+            </div>
         );
     }
 }
-    
+
 export default Home;
-    
