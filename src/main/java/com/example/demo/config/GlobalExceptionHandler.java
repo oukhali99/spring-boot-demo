@@ -16,7 +16,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ApiException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ResponseEntity<Object> handleException(ApiException ex) {
-        return ResponseEntity.ok(new ResponseContentError(ex ,ex.getErrorCode()));
+        return ResponseEntity.ok(new ResponseContentError(ex));
     }
 
 }
